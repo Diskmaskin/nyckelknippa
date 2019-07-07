@@ -6,44 +6,49 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 // ¤ ¨
 
 public class ReadWrite {
 
   private String saveFile = "../resources/passwords";
-  private String line = null;
 
   public ReadWrite() {
-    // This will reference one line at a time
 
-  //   try {
-  //       FileReader fileReader = new FileReader(saveFile);
-  //       BufferedReader bufferedReader = new BufferedReader(fileReader);
-  //
-  //       while((line = bufferedReader.readLine()) != null) {
-  //           System.out.println(line);
-  //       }
-  //
-  //       bufferedReader.close();
-  //   }
-  //   catch(FileNotFoundException ex) {
-  //       System.err.println("Unable to open file '" + fileName + "'");
-  //   }
-  //   catch(IOException ex) {
-  //       System.err.println("Error reading file '" + fileName + "'");
-  //   }
   }
 
   public String[] getSavedPasswords() {
     checkForSaveFile();
 
+    try {
+        FileReader fileReader = new FileReader(saveFile);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        String[] passwords = bufferedReader.readLine().split("¤");
+
+        bufferedReader.close();
+    }
+    catch(FileNotFoundException fnfe) {
+        System.err.println("Unable to open file '" + saveFile + "'");
+    } catch(IOException ieo) {
+        System.err.println("Error reading file '" + saveFile + "'");
+    }
     return null;
   }
 
   public void savePassword(String password, String title) {
     checkForSaveFile();
+    try {
+      FileWriter fileWriter = new FileWriter(saveFile);
+      BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
+      bufferedWriter.write((title + "¨" + password));
+
+      bufferedWriter.close();
+    } catch(IOException ioe) {
+      System.out.println("Error writing to file '" + saveFile + "'");
+    }
   }
 
   private void checkForSaveFile() {
