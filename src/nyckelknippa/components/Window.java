@@ -357,7 +357,7 @@ public class Window extends JFrame {
         tablePanel.setVisible(!tablePanel.isVisible());
         refreshButton.setVisible(tablePanel.isVisible());
         showHideTable.setText((tablePanel.isVisible()) ? "Hide table" : "Show table");
-        setMinimumSize((tablePanel.isVisible()) ? new Dimension(800, 760) : new Dimension(800, 400));
+        setMinimumSize((tablePanel.isVisible()) ? new Dimension(800, 800) : new Dimension(800, 400));
         setSize(getMinimumSize());
       }
     });
@@ -399,6 +399,9 @@ public class Window extends JFrame {
       remove(tablePanel);
       tablePanel = new JScrollPane(table);
       add(tablePanel, BorderLayout.SOUTH);
+      showHideTable.setText("Hide table");
+      setMinimumSize((tablePanel.isVisible()) ? new Dimension(800, 800) : new Dimension(800, 400));
+      setSize(getMinimumSize());
       validate();
       repaint();
     } else {
