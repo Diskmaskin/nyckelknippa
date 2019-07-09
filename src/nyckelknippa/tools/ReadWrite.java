@@ -12,20 +12,49 @@ import java.io.FileNotFoundException;
 
 public class ReadWrite {
 
+  private FileReader fileReader;
+  private BufferedReader bufferedReader;
+  private FileWriter fileWriter;
+  private BufferedWriter bufferedWriter;
+
   private String saveFile = "../resources/passwords";
+  private String saveData = "";
 
   public ReadWrite() {
-
+    readSavedPassword();
   }
 
   public String[] getSavedPasswords() {
     checkForSaveFile();
+    readSavedPassword();
+    return saveData.split("¤");
+  }
 
+  public void savePassword(String password, String title) {
+    checkForSaveFile();
+    readSavedPassword();
     try {
-        FileReader fileReader = new FileReader(saveFile);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+      fileWriter = new FileWriter(saveFile);
+      bufferedWriter = new BufferedWriter(fileWriter);
+      if (saveData.equals("") || saveData.equals("null") || saveData == null) {
+        bufferedWriter.write((title + "¨" + password));
+      } else {
+        bufferedWriter.write(saveData + "¤" + title + "¨" + password);
+      }
 
-        String[] passwords = bufferedReader.readLine().split("¤");
+      bufferedWriter.close();
+    } catch(IOException ioe) {
+      System.out.println("Error writing to file '" + saveFile + "'");
+    }
+  }
+
+  private void readSavedPassword() {
+    try {
+        fileReader = new FileReader(saveFile);
+        bufferedReader = new BufferedReader(fileReader);
+
+        saveData = bufferedReader.readLine();
+        if (saveData == null) saveData = "";
 
         bufferedReader.close();
     }
@@ -34,16 +63,34 @@ public class ReadWrite {
     } catch(IOException ieo) {
         System.err.println("Error reading file '" + saveFile + "'");
     }
-    return null;
   }
 
-  public void savePassword(String password, String title) {
+  public void deletePassword(String title) {
+    if (title == null) return;
     checkForSaveFile();
-    try {
-      FileWriter fileWriter = new FileWriter(saveFile);
-      BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+    readSavedPassword();
+    String[] passwords = getSavedPasswords();
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < passwords.length; i++) {
+      if (passwords[i].split("¨")[0].equals(title)) {
+        for (int j = 0; j < passwords.length; j++) {
+          if (j == i) {
+            continue;
+          } else {
+            if (j > 0) sb.append("¤");
+            sb.append(passwords[j]);
+          }
+        }
+        break;
+      }
+    }
 
-      bufferedWriter.write((title + "¨" + password));
+    saveData = sb.toString();
+    try {
+      fileWriter = new FileWriter(saveFile);
+      bufferedWriter = new BufferedWriter(fileWriter);
+
+      bufferedWriter.write(saveData);
 
       bufferedWriter.close();
     } catch(IOException ioe) {

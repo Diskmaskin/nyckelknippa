@@ -4,7 +4,7 @@ CLASSPATH=".:../resources/*"
 
 cd src
 echo "Compiling"
-javac -d ../bin -cp $CLASSPATH nyckelknippa/main/Main.java
+javac -d ../bin -cp $CLASSPATH nyckelknippa/main/Main.java -Xlint:deprecation
 echo "Compilation complete"
 cd ../bin
 echo "Running"
