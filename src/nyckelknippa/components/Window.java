@@ -350,7 +350,8 @@ public class Window extends JFrame {
     tableOptionGBC = new GridBagConstraints();
     tableOptionGBC.gridx = 0;
     tableOptionGBC.gridy = 0;
-    tableOptionGBC.anchor = GridBagConstraints.NORTHWEST;
+    tableOptionGBC.anchor = GridBagConstraints.CENTER;
+    tableOptionGBC.fill = GridBagConstraints.BOTH;
 
     showHideTable.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {

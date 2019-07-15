@@ -17,7 +17,7 @@ public class ReadWrite {
   private FileWriter fileWriter;
   private BufferedWriter bufferedWriter;
 
-  private String saveFile = "../resources/passwords";
+  private String saveFile = "./resources/passwords";
   private String saveData = "";
 
   public ReadWrite() {
